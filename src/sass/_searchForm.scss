@@ -1,12 +1,22 @@
+li {
+  list-style: none;
+}
+
 .stats {
   display: flex;
   align-items: center;
   justify-content: start;
 }
 
-.stats-item {
-
+.stats-item:not(:last-child) {
+  margin-right: 50px;
 }
+
+.photo-card {
+margin-top: 30px;
+}
+
+
 
 .example {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
