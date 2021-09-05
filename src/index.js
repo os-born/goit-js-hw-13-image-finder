@@ -52,7 +52,8 @@ const clearPicsList = () => {
 }
 
 const appendPicMarkup = (images) => {
-    refs.galleryList.insertAdjacentHTML('beforeend', photoCardTpl(images))
+    refs.galleryList.insertAdjacentHTML('beforeend', photoCardTpl(images));
+    // apiService.incrementPage();
 }
 
 const onHandleInput = e => {
@@ -72,9 +73,13 @@ const onHandleInput = e => {
         }
         clearPicsList();
         appendPicMarkup(images);
-        apiService.incrementPage();
+        // apiService.incrementPage();
     }).catch(fetchError)
 }
 
 refs.input.addEventListener('input', debounce(onHandleInput, 1000))
 refs.loadMoreBtn.addEventListener('click', appendPicMarkup);
+
+
+console.log(appendPicMarkup({}));
+console.log(apiService);
