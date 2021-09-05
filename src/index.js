@@ -1,16 +1,9 @@
 import 'material-icons'
-import { apiServiceOld } from './js/apiService';
 import './sass/main.scss';
 import { refs } from './js/refs'
-// import { from } from 'rxjs/observable/from';
-
-
-
-
 import ApiService from './js/apiService';
 import LoadMoreBtn from './js/loadMoreBtn';
 import { debounce } from "lodash";
-// import { refs } from "./refs"
 import photoCardTpl from './templates/photoCardTpl.hbs'
 import { errorSearch } from './js/errorSearch';
 
@@ -34,17 +27,13 @@ const fetchError = () => {
 
 const fetchPics = () => {
     loadMoreBtn.disable();
-    try {
-        apiService.fetchArt()
-        .then(res => {
-            appendPicMarkup(res);
-            console.log(res);
-            loadMoreBtn.enable();
-        });
-        
-    } catch (error) {
-        fetchError();
-    }
+    apiService.fetchArt()
+    .then(res => {
+        appendPicMarkup(res);
+        console.log(res);
+        loadMoreBtn.enable();
+    })
+    .catch(e => {fetchError()})
 }
 
 const clearPicsList = () => {
@@ -53,7 +42,6 @@ const clearPicsList = () => {
 
 const appendPicMarkup = (images) => {
     refs.galleryList.insertAdjacentHTML('beforeend', photoCardTpl(images));
-    // apiService.incrementPage();
 }
 
 const onHandleInput = e => {
@@ -73,13 +61,14 @@ const onHandleInput = e => {
         }
         clearPicsList();
         appendPicMarkup(images);
-        // apiService.incrementPage();
     }).catch(fetchError)
 }
 
-refs.input.addEventListener('input', debounce(onHandleInput, 1000))
-refs.loadMoreBtn.addEventListener('click', appendPicMarkup);
+const renderFetchBtn = () => {
+    apiService.fetchArt().then(images => { 
+        appendPicMarkup(images);
+    }).catch(fetchError)
+}
 
-
-console.log(appendPicMarkup({}));
-console.log(apiService);
+refs.input.addEventListener('input', debounce(onHandleInput, 500))
+refs.loadMoreBtn.addEventListener('click', renderFetchBtn);

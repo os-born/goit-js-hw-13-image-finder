@@ -19,7 +19,7 @@ export default class ApiService {
         .then( data => {
             this.incrementPage();
             return data;
-        });
+        }).then(console.log(this.page));
     }
 
     handleErrors(response) {
@@ -45,49 +45,3 @@ export default class ApiService {
         this.searchQuery = newQuery;
       }
 }
-
-// const request = {
-// BASE_URL: 'https://pixabay.com/api',
-// orientation: 'orientation=horizontal',
-// numOfPage: 1,
-// perPage: 'per_page=12',
-// key: '23162659-e31e220340403b8018b25f991'
-// }
-
-// export function apiServiceOld (searchQuery) {
-//     // try {
-//         return fetch(`${request.BASE_URL}/?image_type=photo&${request.orientation}&q=${searchQuery}&page=${request.numOfPage}&${request.perPage}&key=${request.key}`)
-    
-//     // }
-//     // catch (error) {console.log(error)}
-// }
-
-
-
-// const renderCardList = (res) => {
-//     const markup = photoCardTpl(res);
-//     refs.galleryList.innerHTML = markup;
-//     console.log(res);
-// }
-
-// const onHandleInput = e => {
-//     e.preventDefault();
-//     const searchQuery = e.target.value.trim();
-//     if (!searchQuery) {
-//         return
-//     };  
-
-//     // loadMoreBtn.show()
-
-//     console.log(searchQuery);
-
-//     apiServiceOld(searchQuery)
-//     .then(res => res.json())
-//     .then(renderCardList)
-//     .catch(console.error())
-    
-// }
-
-
-
-// refs.input.addEventListener('input', debounce(onHandleInput, 1000))
