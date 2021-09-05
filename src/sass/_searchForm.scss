@@ -52,8 +52,10 @@ input {
 .loadMoreBtn {
   width: 140px;
   height: 30px;
-  margin-left: 35px;
-  margin-top: 20px;
   margin-bottom: 50px;
   background-color:lightgrey;
+}
+
+.is-hidden {
+  display: none;
 }
