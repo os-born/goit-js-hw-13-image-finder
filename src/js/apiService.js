@@ -19,7 +19,7 @@ export default class ApiService {
         .then( data => {
             this.incrementPage();
             return data;
-        }).then(console.log(this.page));
+        });
     }
 
     handleErrors(response) {

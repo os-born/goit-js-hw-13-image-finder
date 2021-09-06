@@ -6,34 +6,17 @@ import LoadMoreBtn from './js/loadMoreBtn';
 import { debounce } from "lodash";
 import photoCardTpl from './templates/photoCardTpl.hbs'
 import { errorSearch } from './js/errorSearch';
+import imgScroll from './js/imgScroll';
 
 const loadMoreBtn = new LoadMoreBtn({
     ref: document.querySelector('#loadMoreBtn'),
     hidden: true
 });
 
-
 const apiService = new ApiService();
-
-const renderCardList = (res) => {
-    const markup = photoCardTpl(res);
-    refs.galleryList.innerHTML = markup;
-    console.log(res);
-}
 
 const fetchError = () => {
     console.log(`Error! Can't find the picture!`);
-}
-
-const fetchPics = () => {
-    loadMoreBtn.disable();
-    apiService.fetchArt()
-    .then(res => {
-        appendPicMarkup(res);
-        console.log(res);
-        loadMoreBtn.enable();
-    })
-    .catch(e => {fetchError()})
 }
 
 const clearPicsList = () => {
@@ -42,6 +25,7 @@ const clearPicsList = () => {
 
 const appendPicMarkup = (images) => {
     refs.galleryList.insertAdjacentHTML('beforeend', photoCardTpl(images));
+
 }
 
 const onHandleInput = e => {
@@ -51,22 +35,27 @@ const onHandleInput = e => {
         return
     };
 
-    loadMoreBtn.show();
-    
     apiService.resetPage();
-
+    
     apiService.fetchArt().then(images => { 
-        if(images.length === 0) {
-          errorSearch();
+        if(images.hits.length === 0) {
+            errorSearch();
         }
+        console.log(images);
         clearPicsList();
         appendPicMarkup(images);
+        images.totalHits>12&&images.hits.length<=12?loadMoreBtn.show():loadMoreBtn.hide()
+        imgScroll(refs.loadMoreBtn);
+        
     }).catch(fetchError)
 }
 
 const renderFetchBtn = () => {
+    loadMoreBtn.disable();
     apiService.fetchArt().then(images => { 
         appendPicMarkup(images);
+        imgScroll(refs.loadMoreBtn);
+        loadMoreBtn.enable();
     }).catch(fetchError)
 }
 

@@ -8,7 +8,7 @@ export const errorSearch = () => {
         return error({
             text: 'No image! Please try again!',
             animation: 'slide',
-            delay: 500,
+            delay: 1500
         });
    }, 500);
       
